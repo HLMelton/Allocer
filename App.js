@@ -14,34 +14,45 @@ const { width, height } = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.76;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.47;
 
-// Convert this into an array of objects that can be returned from the DB
-const images = [
-  'https://resizing.flixster.com/g0gX2KmHSC3SeJuZab00ES1ud6c=/206x305/v2/https://resizing.flixster.com/CWLeRPnV_IVC3jaMpEj_sbBEU78=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzA2YTU5OTg5LTk4MzEtNDMwNS04ZmE5LTA4ODQxYjAyMzFlNi5wbmc=',
-  'https://resizing.flixster.com/VugRiwPMAuksEKklXBz3_nKRtJg=/206x305/v2/https://flxt.tmsimg.com/assets/p24116_p_v12_at.jpg',
-  'https://resizing.flixster.com/OTR1v73aB9BONphMxsDNrRU8LYc=/206x305/v2/https://resizing.flixster.com/Y2EVUWoQ-QO0ixvBZY1gX5_zW_Q=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvMjcxZDIzMDktYmMxZi00YTY1LTkwNmQtYjU5YThjNjRmZDE0LnBuZw==',
-  'https://resizing.flixster.com/99LrDMoB1XYddzApwfJtD7RBmP0=/206x305/v2/https://resizing.flixster.com/QJkeIM6LIvwmRGiLKrNBcpZIk8M=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzAwYzExZjlmLWJlODQtNDY4Mi1iNDhkLWU2YWNmMGIyMDgwMi5qcGc=',
-  'https://resizing.flixster.com/M0e8zShu5HQwMb-DUY4xQqvQU5w=/206x305/v2/https://resizing.flixster.com/QS5CsJ4YfRk6_vxGP0xoOivl6iU=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzJkNzc5YmIxLTQzMTQtNDRmZC04NDA2LTAwYjEzYzJlNzZkOC53ZWJw',
-];
+// Set as return 
+const movies = [{
+  image: 'https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,4,190,281_',
+  title: 'The Shining',
+  score: '5',
+},{
+  image: 'https://m.media-amazon.com/images/M/MV5BZTM2ZGJmNjQtN2UyOS00NjcxLWFjMDktMDE2NzMyNTZlZTBiXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_QL75_UX190_CR0,0,190,281_',
+  title: 'American Psycho',
+  score: '5',
+},{
+  image: 'https://m.media-amazon.com/images/M/MV5BMmVmODY1MzEtYTMwZC00MzNhLWFkNDMtZjAwM2EwODUxZTA5XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_QL75_UX190_CR0,5,190,281_',
+  title: 'Jaws',
+  score: '5',
+},{
+  image: 'https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_QL75_UY281_CR0,0,190,281_',
+  title: 'Silence of the Lambs',
+  score: '5',
+},{
+  image: 'https://m.media-amazon.com/images/M/MV5BNzk1OGU2NmMtNTdhZC00NjdlLWE5YTMtZTQ0MGExZTQzOGQyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,5,190,281_',
+  title: 'Halloween',
+  score: '5',
+}]
 
-const titles= [
-  'Spirited', 
-  'American Psycho',
-  'Chainsaw Man',
-  'Black Panther: Wakanda Forever',
-  'Halloween'
-];
-
-const data = images.map((image, index) => ({
+const data = movies.map((movie, index) => ({
   key: String(index),
-  photo: image,
+  photo: movie.image,
+  title: movie.title
 }));
 
 export default function App() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  // Need to figure out how to handle state in this library
+  // this.state = {
+  //   title: background[index]
+  // }
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+      <StatusBar />
       <Animated.FlatList 
         data={data}
         keyExtractor={(item) => item.key}
@@ -69,7 +80,8 @@ export default function App() {
           style={{
             width, 
             justifyContent: 'center', 
-            alignItems: 'center'
+            alignItems: 'center',
+            margin: 0,
           }}>
             <View style={{
                 borderRadius: 18,
@@ -107,12 +119,12 @@ export default function App() {
             </View>
             <Text style={{
               position:'absolute',
-              color:'black',
-              bottom: 55,
+              color:'#8ecae6',
+              bottom: 25,
               left: 30,
               fontSize: 45,
             }}>
-              Ligma part 
+              {item.title} 
             </Text>
           </View>
           );
@@ -128,7 +140,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#023047',
     alignItems: 'center',
     justifyContent: 'center',
   },
