@@ -10,45 +10,58 @@ import {
   StyleSheet,
 } from 'react-native';
 
+
 const { width, height } = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.76;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.47;
 
+
+
 // Set as return 
-const movies = [{
-  image: 'https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,4,190,281_',
+const movieList = [{
+  imageData:'https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,4,190,281_',
   title: 'The Shining',
-  score: '5',
+  rtAudienceRating: 93,
 },{
-  image: 'https://m.media-amazon.com/images/M/MV5BZTM2ZGJmNjQtN2UyOS00NjcxLWFjMDktMDE2NzMyNTZlZTBiXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_QL75_UX190_CR0,0,190,281_',
+  imageData:'https://m.media-amazon.com/images/M/MV5BZTM2ZGJmNjQtN2UyOS00NjcxLWFjMDktMDE2NzMyNTZlZTBiXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_QL75_UX190_CR0,0,190,281_',
   title: 'American Psycho',
-  score: '5',
+  rtAudienceRating: 85,
 },{
-  image: 'https://m.media-amazon.com/images/M/MV5BMmVmODY1MzEtYTMwZC00MzNhLWFkNDMtZjAwM2EwODUxZTA5XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_QL75_UX190_CR0,5,190,281_',
+  imageData: 'https://m.media-amazon.com/images/M/MV5BMmVmODY1MzEtYTMwZC00MzNhLWFkNDMtZjAwM2EwODUxZTA5XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_QL75_UX190_CR0,5,190,281_',
   title: 'Jaws',
-  score: '5',
+  rtAudienceRating: 90,
 },{
-  image: 'https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_QL75_UY281_CR0,0,190,281_',
-  title: 'Silence of the Lambs',
-  score: '5',
+  imageData:'https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_QL75_UY281_CR0,0,190,281_',
+  title:'Silence of the Lambs',
+  rtAudienceRating: 95,
 },{
-  image: 'https://m.media-amazon.com/images/M/MV5BNzk1OGU2NmMtNTdhZC00NjdlLWE5YTMtZTQ0MGExZTQzOGQyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,5,190,281_',
-  title: 'Halloween',
-  score: '5',
+  imageData:'https://m.media-amazon.com/images/M/MV5BNzk1OGU2NmMtNTdhZC00NjdlLWE5YTMtZTQ0MGExZTQzOGQyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,5,190,281_',
+  title:'Halloween',
+  rtAudienceRating: 89,
 }]
 
-const data = movies.map((movie, index) => ({
+const data = movieList.map((movie, index) => ({
   key: String(index),
-  photo: movie.image,
-  title: movie.title
+  photo: movie.imageData,
+  title: movie.title,
+  rating: movie.rtAudienceRating
 }));
 
 export default function App() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
-  // Need to figure out how to handle state in this library
-  // this.state = {
-  //   title: background[index]
-  // }
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  // const fetchData = async () => {
+  //   const response = await fetch('https://api.sampleapis.com/coffee/hot');
+  //   const data = await response.json();
+  //   setData(data);
+  //   setLoading(false);
+  // } 
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -117,14 +130,29 @@ export default function App() {
                 }}/>
               </View>
             </View>
-            <Text style={{
+            <Text 
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+            style={{
               position:'absolute',
               color:'#8ecae6',
-              bottom: 25,
-              left: 30,
-              fontSize: 45,
+              top: ITEM_HEIGHT*1.3+35,
+              // bottom: 35,
+              left: 45,
+              fontSize: 24,
             }}>
-              {item.title} 
+              {item.title}
+            </Text>
+            <Text 
+            style={{
+              position:'absolute',
+              color:'#8ecae6',
+              top: ITEM_HEIGHT*1.3+35,
+              // bottom: 35,
+              right: 45,
+              fontSize: 35,
+            }}>
+              {item.rating}
             </Text>
           </View>
           );
