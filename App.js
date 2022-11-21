@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   Animated,
@@ -9,15 +10,15 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.76;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.47;
 
+// Does putting your data fetching before your export mean its immutable? or is it just the equivalent of fetching before mount? 
 
-
-// Set as return 
+// I'll get to this okay.... 
 const movieList = [{
   imageData:'https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX190_CR0,4,190,281_',
   title: 'The Shining',
@@ -49,19 +50,15 @@ const data = movieList.map((movie, index) => ({
 
 export default function App() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
-  // const [data, setData] = useState([]);
-  // const [loading, setLoading] = useState(true);
 
-  // const fetchData = async () => {
-  //   const response = await fetch('https://api.sampleapis.com/coffee/hot');
-  //   const data = await response.json();
-  //   setData(data);
-  //   setLoading(false);
-  // } 
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  // Async might slow initial load time. 
+  const fetchData = async () => {
+    const baseURL = "https://umgxfjpv7a.execute-api.us-west-1.amazonaws.com/default/fetchMovies-dev";
+    axios.get(`${baseURL}/hot`).then((response) => console.log(response.data));
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -130,30 +127,34 @@ export default function App() {
                 }}/>
               </View>
             </View>
-            <Text 
-            adjustsFontSizeToFit={true}
-            numberOfLines={1}
-            style={{
-              position:'absolute',
-              color:'#8ecae6',
-              top: ITEM_HEIGHT*1.3+35,
-              // bottom: 35,
-              left: 45,
-              fontSize: 24,
+            <View style={{
+              height: '15%',
             }}>
-              {item.title}
-            </Text>
-            <Text 
-            style={{
-              position:'absolute',
-              color:'#8ecae6',
-              top: ITEM_HEIGHT*1.3+35,
-              // bottom: 35,
-              right: 45,
-              fontSize: 35,
+              <Text 
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+              style={{
+                position:'relative',
+                color:'#8ecae6',
+                fontSize: 24,
+                top: '20%',
+                textAlign: 'center',
+              }}>
+                {item.title}
+              </Text>
+            </View>
+            <View style={{
+
             }}>
-              {item.rating}
-            </Text>
+              <Text 
+                style={{
+                  position:'absolute',
+                  color:'#8ecae6',
+                  left: 20,
+                }}>
+                  {item.rating}
+              </Text>
+            </View>
           </View>
           );
         }
