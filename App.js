@@ -52,24 +52,30 @@ const apiExampleResponse = [
   }
 ]
 
-let data = apiExampleResponse.map((movie, index) => ({
-  key: String(index),
-  photo: movie.imageData,
-  title: movie.title,
-  rating: movie.rtAudienceRating
-}));
+// let data = apiExampleResponse.map((movie, index) => ({
+//   key: String(index),
+//   photo: movie.imageData,
+//   title: movie.title,
+//   rating: movie.rtAudienceRating
+// }));
 
 export default function App() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const [movies, setMovies] = React.useState([]);
 
-
-  // Async might slow initial load time. 
   const fetchData = () => {
-    // const baseURL = "https://pqwk4m8ok3.execute-api.us-west-1.amazonaws.com/dev/fetchMoviesFromDb-dev";
-    const baseURL = "https://reactnative.dev/movies.json";
-    const response = axios.get(`${baseURL}`).then((response) => console.log(response.data.Items));
+    const baseURL = "https://pqwk4m8ok3.execute-api.us-west-1.amazonaws.com/dev/fetchMoviesFromDb-dev";
+    const response = axios
+      .get(`${baseURL}`)
+      .then((response) => {
+        response.data.Items.forEach(element => {
+          setMovies(movies.push(element))
+          console.log(element)
+        });
+        console.log(movies)
+       }
+      )
   };
-
 
   useEffect(() => {
     fetchData();
@@ -79,7 +85,7 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar />
       <Animated.FlatList 
-        data={data}
+        data={apiExampleResponse}
         keyExtractor={(item) => item.key}
         horizontal
         showHorizontalScrollIndicator={false}
@@ -94,7 +100,7 @@ export default function App() {
             index * width,
             (index+1) * width
           ]
-          // Add repeating behavior to carousel 
+          // Add repeating behavior to carousel? 
 
           const translateX = scrollX.interpolate({
             inputRange,
@@ -130,7 +136,7 @@ export default function App() {
                 borderRadius: 14,
               }}>
                 <Animated.Image 
-                source={{uri: item.photo}} 
+                source={{uri: item.imageData}} 
                 style={{
                   width: ITEM_WIDTH * 1.3,
                   height: ITEM_HEIGHT,
@@ -168,7 +174,7 @@ export default function App() {
                   color:'#8ecae6',
                   left: 20,
                 }}>
-                  {item.rating}
+                  {item.rtAudience}
               </Text>
             </View>
           </View>
